@@ -5,6 +5,7 @@ import * as yup from "yup";
 import MkdSDK from "../utils/MkdSDK";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
+import { GlobalContext } from "../globalContext";
 
 const AdminLoginPage = () => {
   const schema = yup
@@ -15,6 +16,7 @@ const AdminLoginPage = () => {
     .required();
 
   const { dispatch } = React.useContext(AuthContext);
+  const { dispatch: snackDispatch } = React.useContext(GlobalContext);
   const navigate = useNavigate();
   const {
     register,
@@ -26,8 +28,20 @@ const AdminLoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    let sdk = new MkdSDK();
-    //TODO
+    try {
+      const sdk = new MkdSDK();
+      await sdk.login(data.email, data.password, "admin");
+      // dispatch({ type: "LOGIN", payload: sdk });
+      snackDispatch({
+        type: "SNACKBAR",
+        payload: { message: "Successful to login as admin." },
+      });
+      setTimeout(() => {
+        navigate("/admin/dashboard", { state: sdk });
+      }, 1000);
+    } catch (error) {
+      setError("error", { type: "manual", message: "Failed to login!" });
+    }
   };
 
   return (
@@ -47,9 +61,8 @@ const AdminLoginPage = () => {
             type="email"
             placeholder="Email"
             {...register("email")}
-            className={`"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              errors.email?.message ? "border-red-500" : ""
-            }`}
+            className={`"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email?.message ? "border-red-500" : ""
+              }`}
           />
           <p className="text-red-500 text-xs italic">{errors.email?.message}</p>
         </div>
@@ -65,9 +78,8 @@ const AdminLoginPage = () => {
             type="password"
             placeholder="******************"
             {...register("password")}
-            className={`shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
-              errors.password?.message ? "border-red-500" : ""
-            }`}
+            className={`shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${errors.password?.message ? "border-red-500" : ""
+              }`}
           />
           <p className="text-red-500 text-xs italic">
             {errors.password?.message}

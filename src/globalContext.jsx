@@ -10,6 +10,7 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "SNACKBAR":
+      console.log(state);
       return {
         ...state,
         globalMessage: action.payload.message,
