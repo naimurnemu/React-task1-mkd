@@ -67,7 +67,7 @@ const AdminDashboardPage = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black min-h-screen font-inter font-thin">
       <div className="md:container mx-auto px-10">
         <div className="flex justify-between align-center gap-2 py-5">
           <div>
@@ -75,7 +75,8 @@ const AdminDashboardPage = () => {
           </div>
           <div>
             <button
-              className="bg-yellow-400 rounded-full px-5 py-1.5"
+              className="rounded-full px-5 py-1.5"
+              style={{ backgroundColor: "#9BFF00", color: "#050505" }}
               onClick={handleLogout}
             >
               Logout
@@ -83,29 +84,34 @@ const AdminDashboardPage = () => {
           </div>
         </div>
         <div className="flex justify-between items-center	pt-10">
-          <h2 className="text-white font-inter text-4xl font-extralight leading-12">
+          <h2 className="text-white font-inter text-4xl font-thin leading-12">
             Today's leaderboard
           </h2>
           <div className="bg-neutral-900 rounded-xl py-2 px-6">
             <span className="text-white text-base font-extralight">30 May 2022</span>
             <span className="text-gray-600" style={{ color: "#696969" }}>&nbsp; &#x2022; &nbsp; </span>
-            <span className="bg-yellow-400 text-black rounded-lg py-0 px-2 text-sm" > Submissions OPEN </span>
+            <span
+              className="bg-yellow-400 text-black rounded-md py-0 px-2"
+              style={{ backgroundColor: "#9BFF00", color: "#000000", fontSize: "14px" }}
+            >
+              Submissions OPEN
+            </span>
             <span className="text-gray-600" style={{ color: "#696969" }}>&nbsp; &#x2022; &nbsp; </span>
             <span className="text-white text-base font-extralight">11:34</span>
           </div>
         </div>
-        <table className="w-full">
+        <table className="w-full" style={{ borderCollapse: "separate", borderSpacing: "0 1rem"}}>
           <thead>
             <tr>
               <th className="text-gray-600 text-base font-normal font-inter py-2 w-0.25/12">#</th>
               <th className="text-gray-600 text-base font-normal font-inter text-left py-2 w-6.25/12">Title</th>
               <th className="text-gray-600 text-base font-normal font-inter py-2 w-3.5/12">Author</th>
               <th className="text-gray-600 text-base font-normal font-inter text-right py-2 pr-6 w-2/12	">
-                Most Liked <span style={{ color: "#9BFF00", fontSize: "20px" }}> &nbsp; &darr; </span>
+                Most Liked <span className="text-lg" style={{ color: "#9BFF00" }}> &nbsp; &darr; </span>
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className=" gap-4 w-full">
             {videoInfo?.map((row, index) => (
               <DataRow key={row?.id} row={row} index={index} handleMoveRow={handleMoveRow} />
             ))}
@@ -114,7 +120,8 @@ const AdminDashboardPage = () => {
         <div className="flex justify-end mt-4">
           <button
             onClick={handleGoToPrevious}
-            className="bg-yellow-400 rounded-full px-4 py-1  cursor-pointer"
+            className="rounded-full px-4 py-1 cursor-pointer text-black text-base"
+            style={{ backgroundColor: "#9BFF00" }}
             disabled={currentPage === 1}
           >
             Prev
@@ -127,7 +134,8 @@ const AdminDashboardPage = () => {
           </button>
           <button
             onClick={handleGoToNext}
-            className="bg-yellow-400 rounded-full px-4 py-1 cursor-pointer"
+            className="rounded-full px-4 py-1 cursor-pointer text-black text-base"
+            style={{ backgroundColor: "#9BFF00" }}
             disabled={currentPage === totalPages}
           >
             Next
@@ -165,32 +173,32 @@ const DataRow = (props) => {
   return (
     <tr
       key={row?.id}
-      className="border-1 border-yellow-100 border-solid mb-3 px-3 py-2"
-      style={{ opacity: isDragging ? 0.5 : 1, border: "1px solid #E6FFBC" }}
+      className="mb-3 px-3 py-2"
+      style={{ opacity: isDragging ? 0.5 : 1, }}
       ref={(node) => drag(drop(node))}
     >
-      <td className="w-0.25/12">
+      <td className="w-0.25/12 border border-r-0 rounded-tl-lg rounded-bl-lg">
         <p className="text-gray-600 font-inter text-base font-normal py-2 px-6">
           {row?.id <= 9 ? (<>0{row.id}</>) : row?.id}
         </p>
       </td>
-      <td className="w-6.25/12">
+      <td className="w-6.25/12 border border-x-0">
         <div className="flex items-center py-4 px-2">
           <img className="w-32 h-16 rounded-md" src={row?.photo} alt={row?.username} />
-          <h5 className="text-gray-600 text-lg text-left font-inter font-normal py-2 px-4">{row?.title}</h5>
+          <h5 className="text-white text-lg text-left font-inter font-thin py-2 px-4">{row?.title}</h5>
         </div>
       </td>
-      <td className="w-3.5/12">
+      <td className="w-3.5/12 border border-x-0">
         <div className="flex items-center justify-center py-4 px-2">
           <img className="h-8 w-8 rounded-full mx-3" src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXASVLg1zknZjrRDcPx_KwIHpGxfj4ksNsaQ&usqp=CAU`} alt={row?.username} />
-          <h5 className="text-gray-600 text-center text-base font-inter font-normal py-2 px-2">
+          <h6 style={{color: "#DBFD51"}} className="text-gray-600 text-center text-base font-inter font-thin py-2 px-2">
             {row?.username}
-          </h5>
+          </h6>
         </div>
       </td>
-      <td className="w-2/12">
+      <td className="w-2/12 border border-l-0 rounded-tr-lg rounded-br-lg">
         <h5 className="text-gray-600 text-base text-center font-inter font-normal py-2 pr-6">
-          {row?.like}<span className="text-yellow-400 text-lg"> &nbsp; &uarr; </span>
+          {row?.like}<span style={{color: "#9BFF00"}} className="text-lg"> &nbsp; &uarr; </span>
         </h5>
       </td>
     </tr>
