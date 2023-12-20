@@ -36,9 +36,9 @@ const AdminLoginPage = () => {
         type: "SNACKBAR",
         payload: { message: "Successful to login as admin." },
       });
-      setTimeout(() => {
+      // setTimeout(() => {
         navigate("/admin/dashboard", { state: sdk });
-      }, 1000);
+      // }, 1000);
     } catch (error) {
       setError("error", { type: "manual", message: "Failed to login!" });
     }
